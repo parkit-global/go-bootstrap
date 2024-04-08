@@ -12,5 +12,7 @@ clean:
 	$(RM) -rf bin/*
 build:
 	$(GO) build -o bin/$(APP) src/*.go
+run:
+	$(GO) run src/*.go
 test:
 	$(GO) test -v ./...
