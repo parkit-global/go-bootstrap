@@ -1,20 +1,24 @@
 package main
 
 import (
-	"fmt"
-	"os"
-	"path/filepath"
-	"text/template"
+	"github.com/spf13/cobra"
 )
 
-type TemplateData struct {
-	AppName    string
-	ModuleName string
-	GoVersion  string
-}
-
 func main() {
-	fmt.Println("Bootstrap")
+	var outputDir string
+	var templateDir string
+	var cmd = &cobra.Command{
+		Use: "go-bootstrap",
+	}
+
+	cmd.PersistentFlags().StringVar(&outputDir, "output", "output", "Output directory")
+	cmd.PersistentFlags().StringVar(&templateDir, "template", "template", "Template directory")
+	cmd.Execute()
+
+	generator := Generator{
+		OutputDir:   outputDir,
+		TemplateDir: templateDir,
+	}
 
 	data := TemplateData{
 		AppName:    "DemoApp",
@@ -22,38 +26,7 @@ func main() {
 		GoVersion:  "1.21",
 	}
 
-	generateFile("main.go", data)
-	generateFile("Makefile", data)
-	generateFile("go.mod", data)
-}
-
-func generateFile(outputFileName string, data TemplateData) {
-	outputDir := "output"
-	outputFilePath := filepath.Join(outputDir, outputFileName)
-	templateDir := "template"
-	templateFilePath := fmt.Sprintf("%s/%s.tpl", templateDir, outputFileName)
-
-	tmpl, err := template.ParseFiles(templateFilePath)
-	if err != nil {
-		panic(err)
-	}
-
-	err = os.MkdirAll(outputDir, os.ModePerm)
-	if err != nil {
-		panic(err)
-	}
-
-	outputFile, err := os.Create(outputFilePath)
-	if err != nil {
-		panic(err)
-	}
-
-	defer outputFile.Close()
-
-	err = tmpl.Execute(outputFile, data)
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Printf("'%s' generated\n", outputFilePath)
+	generator.generateFile("src/main.go", data)
+	generator.generateFile("Makefile", data)
+	generator.generateFile("go.mod", data)
 }
