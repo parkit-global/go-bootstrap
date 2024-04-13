@@ -26,9 +26,10 @@ func main() {
 		GoVersion:  "1.21",
 	}
 
-	generator.generateFile("src/main.go", data)
-	generator.generateFile("src/config.go", data)
-	generator.generateFile("Makefile", data)
-	generator.generateFile("go.mod", data)
-	generator.generateFile("application.yaml", data)
+	generator.GenerateFile("src/main.go", data)
+	generator.GenerateFile("src/config.go", data)
+	generator.GenerateFile("Makefile", data)
+	generator.GenerateFile("go.mod", data)
+
+	generator.CopyFile("application.yaml")
 }
