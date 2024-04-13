@@ -51,9 +51,10 @@ func (g *Generator) GenerateFile(outputFileName string, data TemplateData) error
 	return nil
 }
 
-func (g *Generator) CopyFile(sourceFileName string) error {
-	outputFilePath := filepath.Join(g.OutputDir, sourceFileName)
+func (g *Generator) CopyFile(outputFileName string) error {
+	outputFilePath := filepath.Join(g.OutputDir, outputFileName)
 	outputFileDir := filepath.Dir(outputFilePath)
+	sourceFilePath := fmt.Sprintf("%s/%s", g.TemplateDir, outputFileName)
 
 	err := os.MkdirAll(outputFileDir, os.ModePerm)
 	if err != nil {
@@ -65,7 +66,7 @@ func (g *Generator) CopyFile(sourceFileName string) error {
 		return err
 	}
 
-	sourceFile, err := os.Open(sourceFileName)
+	sourceFile, err := os.Open(sourceFilePath)
 	if err != nil {
 		return err
 	}
