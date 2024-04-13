@@ -27,6 +27,8 @@ func main() {
 	}
 
 	generator.generateFile("src/main.go", data)
+	generator.generateFile("src/config.go", data)
 	generator.generateFile("Makefile", data)
 	generator.generateFile("go.mod", data)
+	generator.generateFile("application.yaml", data)
 }
