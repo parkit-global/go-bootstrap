@@ -31,9 +31,6 @@ func main() {
 	generator.GenerateFile("go.mod", data)
 
 	generator.CopyFile("application.yaml")
-
-	err := generator.CopyFile("src/config.go")
-	if err != nil {
-		panic(err)
-	}
+	generator.CopyFile("src/config.go")
+	generator.CopyFile("src/endpoint.go")
 }
