@@ -51,6 +51,16 @@ func (g *Generator) GenerateFile(outputFileName string, data TemplateData) error
 	return nil
 }
 
+func (g *Generator) GenerateFiles(outputFileNames []string, data TemplateData) error {
+	for _, outputFileName := range outputFileNames {
+		err := g.GenerateFile(outputFileName, data)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 func (g *Generator) CopyFile(outputFileName string) error {
 	outputFilePath := filepath.Join(g.OutputDir, outputFileName)
 	outputFileDir := filepath.Dir(outputFilePath)
@@ -66,6 +76,8 @@ func (g *Generator) CopyFile(outputFileName string) error {
 		return err
 	}
 
+	defer outputFile.Close()
+
 	sourceFile, err := os.Open(sourceFilePath)
 	if err != nil {
 		return err
@@ -78,5 +90,15 @@ func (g *Generator) CopyFile(outputFileName string) error {
 
 	fmt.Printf("'%s' copied\n", outputFilePath)
 
+	return nil
+}
+
+func (g *Generator) CopyFiles(outputFileNames []string) error {
+	for _, outputFileName := range outputFileNames {
+		err := g.CopyFile(outputFileName)
+		if err != nil {
+			return err
+		}
+	}
 	return nil
 }

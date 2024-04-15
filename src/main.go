@@ -26,11 +26,26 @@ func main() {
 		GoVersion:  "1.21",
 	}
 
-	generator.GenerateFile("src/main.go", data)
-	generator.GenerateFile("Makefile", data)
-	generator.GenerateFile("go.mod", data)
+	err := generator.GenerateFiles(
+		[]string{
+			"src/main.go",
+			"Makefile",
+			"go.mod",
+		},
+		data)
 
-	generator.CopyFile("application.yaml")
-	generator.CopyFile("src/config.go")
-	generator.CopyFile("src/endpoint.go")
+	if err != nil {
+		panic(err)
+	}
+
+	err = generator.CopyFiles(
+		[]string{
+			"application.yaml",
+			"src/config.go",
+			"src/endpoint.go",
+		})
+
+	if err != nil {
+		panic(err)
+	}
 }
