@@ -2,10 +2,12 @@ package main
 
 import (
 	"github.com/parkit-global/go-bootstrap/pkg/generator"
+	"github.com/parkit-global/go-bootstrap/pkg/gocli"
 	"github.com/spf13/cobra"
 )
 
 func main() {
+	var err error
 	var outputDir string
 	var templateDir string
 	var appName string
@@ -22,6 +24,16 @@ func main() {
 	cmd.PersistentFlags().StringVar(&goVersion, "go-version", "1.21", "Go version")
 	cmd.Execute()
 
+	mod := gocli.Mod{
+		Name: moduleName,
+		Dir:  outputDir,
+	}
+
+	err = mod.Init()
+	if err != nil {
+		panic(err)
+	}
+
 	g := generator.Generator{
 		OutputDir:   outputDir,
 		TemplateDir: templateDir,
@@ -33,11 +45,10 @@ func main() {
 		GoVersion:  goVersion,
 	}
 
-	err := g.GenerateFiles(
+	err = g.GenerateFiles(
 		[]string{
 			"cmd/main.go",
 			"Makefile",
-			"go.mod",
 		},
 		data)
 
@@ -54,4 +65,6 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	mod.Tidy()
 }
