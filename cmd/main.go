@@ -1,32 +1,39 @@
 package main
 
 import (
+	"github.com/parkit-global/go-bootstrap/pkg/generator"
 	"github.com/spf13/cobra"
 )
 
 func main() {
 	var outputDir string
 	var templateDir string
+	var appName string
+	var moduleName string
+	var goVersion string
 	var cmd = &cobra.Command{
 		Use: "go-bootstrap",
 	}
 
 	cmd.PersistentFlags().StringVar(&outputDir, "output", "output", "Output directory")
 	cmd.PersistentFlags().StringVar(&templateDir, "template", "template", "Template directory")
+	cmd.PersistentFlags().StringVar(&appName, "app-name", "DemoApp", "Name of the application")
+	cmd.PersistentFlags().StringVar(&moduleName, "module-name", "github.com/username/demoapp", "Name of the module")
+	cmd.PersistentFlags().StringVar(&goVersion, "go-version", "1.21", "Go version")
 	cmd.Execute()
 
-	generator := Generator{
+	g := generator.Generator{
 		OutputDir:   outputDir,
 		TemplateDir: templateDir,
 	}
 
-	data := TemplateData{
-		AppName:    "DemoApp",
-		ModuleName: "github.com/username/demoapp",
-		GoVersion:  "1.21",
+	data := generator.TemplateData{
+		AppName:    appName,
+		ModuleName: moduleName,
+		GoVersion:  goVersion,
 	}
 
-	err := generator.GenerateFiles(
+	err := g.GenerateFiles(
 		[]string{
 			"src/main.go",
 			"Makefile",
@@ -38,7 +45,7 @@ func main() {
 		panic(err)
 	}
 
-	err = generator.CopyFiles(
+	err = g.CopyFiles(
 		[]string{
 			"application.yaml",
 			"src/config.go",
