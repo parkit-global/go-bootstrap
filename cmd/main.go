@@ -35,7 +35,7 @@ func main() {
 
 	err := g.GenerateFiles(
 		[]string{
-			"src/main.go",
+			"cmd/main.go",
 			"Makefile",
 			"go.mod",
 		},
@@ -48,8 +48,8 @@ func main() {
 	err = g.CopyFiles(
 		[]string{
 			"application.yaml",
-			"src/config.go",
-			"src/endpoint.go",
+			"cmd/config.go",
+			"cmd/endpoint.go",
 		})
 
 	if err != nil {
