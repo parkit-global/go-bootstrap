@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+    "net/http"
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -30,4 +31,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func healthCheck(ctx *gin.Context) {
+	ctx.JSON(http.StatusOK, gin.H{"status": "UP"})
 }

@@ -49,7 +49,6 @@ func main() {
 		[]string{
 			"application.yaml",
 			"cmd/config.go",
-			"cmd/endpoint.go",
 		})
 
 	if err != nil {
