@@ -11,33 +11,20 @@ type Mod struct {
 }
 
 func (m *Mod) Init() error {
-	currentDir, err := os.Getwd()
-	if err != nil {
-		return err
-	}
-
-	err = os.MkdirAll(m.Dir, os.ModePerm)
-	if err != nil {
-		return err
-	}
-
-	err = os.Chdir(m.Dir)
-	if err != nil {
-		return err
-	}
-
-	cmd := exec.Command("go", "mod", "init", m.Name)
-	err = cmd.Run()
-	if err != nil {
-		return err
-	}
-
-	err = os.Chdir(currentDir)
-
-	return err
+	return m.chdir(func() error {
+		cmd := exec.Command("go", "mod", "init", m.Name)
+		return cmd.Run()
+	})
 }
 
 func (m *Mod) Tidy() error {
+	return m.chdir(func() error {
+		cmd := exec.Command("go", "mod", "tidy")
+		return cmd.Run()
+	})
+}
+
+func (m *Mod) chdir(doWork func() error) error {
 	currentDir, err := os.Getwd()
 	if err != nil {
 		return err
@@ -53,13 +40,10 @@ func (m *Mod) Tidy() error {
 		return err
 	}
 
-	cmd := exec.Command("go", "mod", "tidy")
-	err = cmd.Run()
-	if err != nil {
-		return err
-	}
+	err = doWork()
 
 	err = os.Chdir(currentDir)
 
 	return err
+
 }
