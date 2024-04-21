@@ -1,6 +1,9 @@
 package gocli
 
 import (
+	"runtime"
+	"strings"
+
 	"os"
 	"os/exec"
 )
@@ -8,6 +11,16 @@ import (
 type Mod struct {
 	Name string
 	Dir  string
+}
+
+func (m *Mod) Version() string {
+	goVersion := runtime.Version()
+	version := strings.TrimPrefix(goVersion, "go")
+
+	parts := strings.Split(version, ".")
+	majorMinor := strings.Join(parts[:2], ".")
+
+	return majorMinor
 }
 
 func (m *Mod) Init() error {

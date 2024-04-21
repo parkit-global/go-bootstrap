@@ -12,7 +12,6 @@ func main() {
 	var templateDir string
 	var appName string
 	var moduleName string
-	var goVersion string
 	var cmd = &cobra.Command{
 		Use: "go-bootstrap",
 	}
@@ -21,8 +20,9 @@ func main() {
 	cmd.PersistentFlags().StringVar(&templateDir, "template", "template", "Template directory")
 	cmd.PersistentFlags().StringVar(&appName, "app-name", "demo-app", "Name of the application")
 	cmd.PersistentFlags().StringVar(&moduleName, "module-name", "github.com/username/demoapp", "Name of the module")
-	cmd.PersistentFlags().StringVar(&goVersion, "go-version", "1.22", "Go version")
 	cmd.Execute()
+
+	// TODO auto lower case app name
 
 	mod := gocli.Mod{
 		Name: moduleName,
@@ -42,7 +42,7 @@ func main() {
 	data := generator.TemplateData{
 		AppName:    appName,
 		ModuleName: moduleName,
-		GoVersion:  goVersion,
+		GoVersion:  mod.Version(),
 	}
 
 	err = g.GenerateFiles(
