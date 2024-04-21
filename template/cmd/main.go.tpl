@@ -13,7 +13,7 @@ import (
 func main() {
 	InitConfig()
 
-    fmt.Println("{{.AppName}} Started")
+    log.Infof("{{.AppName}} Started")
 
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()

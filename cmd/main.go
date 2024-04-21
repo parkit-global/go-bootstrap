@@ -19,9 +19,9 @@ func main() {
 
 	cmd.PersistentFlags().StringVar(&outputDir, "output", "output", "Output directory")
 	cmd.PersistentFlags().StringVar(&templateDir, "template", "template", "Template directory")
-	cmd.PersistentFlags().StringVar(&appName, "app-name", "DemoApp", "Name of the application")
+	cmd.PersistentFlags().StringVar(&appName, "app-name", "demo-app", "Name of the application")
 	cmd.PersistentFlags().StringVar(&moduleName, "module-name", "github.com/username/demoapp", "Name of the module")
-	cmd.PersistentFlags().StringVar(&goVersion, "go-version", "1.21", "Go version")
+	cmd.PersistentFlags().StringVar(&goVersion, "go-version", "1.22", "Go version")
 	cmd.Execute()
 
 	mod := gocli.Mod{
@@ -49,6 +49,7 @@ func main() {
 		[]string{
 			"cmd/main.go",
 			"Makefile",
+			"Dockerfile",
 		},
 		data)
 
