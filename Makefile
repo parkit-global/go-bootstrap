@@ -1,8 +1,6 @@
 GO = $(shell which go 2>/dev/null)
 
-APP 			:= go-bootstrap
-VERSION 		:= v0.1.0
-
+APP 		:= genesis
 
 .PHONY: all build clean test
 

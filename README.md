@@ -13,5 +13,5 @@ go install github.com/parkit-global/go-bootstrap/cmd/genesis@latest
 ## Usage
 
 ```bash
-./bin/go-bootstrap --output "demo-app" --template "template"
+./bin/genesis --output "demo-app" --app-name "demo-app" --module-name "github.com/username/demo-app" --template "template"
 ```
