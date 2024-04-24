@@ -11,8 +11,8 @@ all: clean build
 clean:
 	$(RM) -rf bin/*
 build:
-	$(GO) build -o bin/$(APP) cmd/*.go
+	$(GO) build -o bin/$(APP) cmd/genesis/*.go
 run:
-	$(GO) run cmd/*.go
+	$(GO) run cmd/genesis/*.go
 test:
 	$(GO) test -v ./...
